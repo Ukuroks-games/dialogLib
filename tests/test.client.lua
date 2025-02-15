@@ -1,11 +1,3 @@
-# Dialog lib
-
-this is library for creating dialogs
-
-
-## Example
-
-```
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
@@ -34,4 +26,3 @@ for i = 1, #phrasesList, 1 do
 	d:Next()
 	task.wait(5)
 end
-```
