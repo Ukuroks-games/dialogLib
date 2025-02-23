@@ -14,45 +14,53 @@ dialog.character = character
 --[[
 	Dialog struct
 ]]
-export type Dialog = {
+export type Dialogue = {
 	CurrentPhrase: number,
 
 	--[[
 		List of phrases in dialog
 	]]
-	phrases: {
-		phrase.Phrase
-	},
+	phrases: { phrase.Phrase },
 
 	--[[
 		Frame, where dialog showing
 	]]
 	MainFrame: Frame,
 
+	--[[
+
+	]]
 	CharFace: ImageLabel,
+
+	--[[
+
+	]]
 	Text: TextLabel,
 
 	--[[
 		Next phrase
 	]]
-	Next: (self: Dialog)->nil,
+	Next: (self: Dialogue) -> nil,
 
-	SetPhrase: (self: Dialog, i: number)->nil,
+	--[[
+
+	]]
+	SetPhrase: (self: Dialogue, i: number) -> nil,
 
 	--[[
 		Destroy dialog
 	]]
-	Destroy: (self: Dialog)->nil,
+	Destroy: (self: Dialogue) -> nil,
 
 	PhraseChange: RBXScriptConnection,
 	PhraseChangeEvent: BindableEvent
 }
 
-function dialog.Next(self: Dialog)
+function dialog.Next(self: Dialogue)
 	self:SetPhrase(self.CurrentPhrase + 1)	
 end
 
-function dialog.SetPhrase(self: Dialog, i: number)
+function dialog.SetPhrase(self: Dialogue, i: number)
 	self.CurrentPhrase = i
 	local phrase = self.phrases[i]
 
@@ -63,7 +71,7 @@ function dialog.SetPhrase(self: Dialog, i: number)
 	self.PhraseChangeEvent:Fire()
 end
 
-function dialog.Destroy(self: Dialog)
+function dialog.Destroy(self: Dialogue)
 	self.PhraseChangeEvent:Destroy()
 	self.CharFace:Destroy()
 	self.Text:Destroy()
@@ -74,11 +82,11 @@ end
 
 	`Phrases` - list of phrases
 ]]
-function dialog.new(Phrases: {phrase.Phrase}, MainFrame: Frame): Dialog
+function dialog.new(MainFrame: Frame, Phrases: { phrase.Phrase }?): Dialogue
 
 	local PhraseChangeEvent = Instance.new("BindableEvent")
 
-	local self: Dialog = {
+	local self: Dialogue = {
 		CurrentPhrase = 0,
 		phrases = Phrases,
 		CharFace = Instance.new("ImageLabel", MainFrame),
