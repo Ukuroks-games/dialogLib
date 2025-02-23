@@ -1,1 +1,1 @@
-return require(script.Parent.src.dialog)
+return require(script.src.dialog)
