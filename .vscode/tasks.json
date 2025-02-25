@@ -2,25 +2,13 @@
     "tasks": [
         {
             "type": "shell",
-            "label": "Install depends",
-            "detail": "Install all project depends",
-            "command": "wally install && exit",
-            "group": {
-                "kind": "none"
-            },
-            "problemMatcher": [],
-            "dependsOn": ["Install programs"]
-        },
-        {
-            "type": "shell",
             "label": "Build tests",
             "detail": "Build tests place",
             "command": "rojo build tests.project.json --output tests.rbxl && exit",
             "group": {
                 "kind": "build",
                 "isDefault": true
-            },
-            "dependsOn": ["Install depends"]
+            }
         },
         {
             "type": "shell",
@@ -29,8 +17,7 @@
             "command": "rojo sourcemap tests.project.json --output sourcemap.json && exit",
             "group": {
                 "kind": "none"
-            },
-            "dependsOn": ["Install depends"]
+            }
         },
         {
             "type": "shell",

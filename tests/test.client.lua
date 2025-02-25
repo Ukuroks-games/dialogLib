@@ -2,6 +2,7 @@ local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
 local dialog = require(ReplicatedStorage.shared.dialog)
+local phrase = require(ReplicatedStorage.shared.phrase)
 
 local ScreenGui = Instance.new("ScreenGui", Players.LocalPlayer.PlayerGui)
 local MainFrame = Instance.new("Frame", ScreenGui)
@@ -18,8 +19,13 @@ local phrasesList = {
 }
 
 local d = dialog.new(
-	phrasesList,
-	MainFrame
+		MainFrame,
+		phrasesList,
+		nil,
+		function (self: dialog.Dialogue, phrase: phrase.Phrase)
+			print("setText")
+			self.Text.Text = phrase.Text
+		end
 )
 
 for i = 1, #phrasesList, 1 do
