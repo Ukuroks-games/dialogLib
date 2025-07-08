@@ -14,7 +14,7 @@ dialog.character = character
 --[[
 	Dialog struct
 ]]
-export type Dialogue = {
+export type DialogueStruct = {
 	--[[
 	
 	]]
@@ -46,20 +46,8 @@ export type Dialogue = {
 	Default: string,
 
 	--[[
-		Next phrase
-	]]
-	Next: (self: Dialogue) -> nil,
-
-	--[[
 
 	]]
-	SetPhrase: (self: Dialogue, i: number) -> nil,
-
-	--[[
-		Destroy dialog
-	]]
-	Destroy: (self: Dialogue) -> nil,
-
 	TextShowAnimation: (self: Dialogue, phrase: phrase.Phrase) -> nil,
 
 	--[[
@@ -68,12 +56,22 @@ export type Dialogue = {
 	PhraseChange: RBXScriptConnection,
 	PhraseChangeEvent: BindableEvent
 }
+
+export type Dialogue = DialogueStruct & typeof(dialog)
+
+
 dialog.TextShowAnimations = {}
 
+--[[
+	Default text show animation
+]]
 function dialog.TextShowAnimations.Default(self: Dialogue, phrase: phrase.Phrase)
 	self.Text.Text = phrase.Text or self.Default
 end
 
+--[[
+	Print text by single char
+]]
 function dialog.TextShowAnimations.ByChars(self: Dialogue, phrase: phrase.Phrase)
 	if phrase and phrase.Text then
 		phrase = {Text = self.Default, Char = phrase.Char}
@@ -86,8 +84,15 @@ function dialog.TextShowAnimations.ByChars(self: Dialogue, phrase: phrase.Phrase
 	end
 end
 
+--[[
+	Next phrase
+]]
 function dialog.Next(self: Dialogue)
-	self:SetPhrase(self.CurrentPhrase + 1)	
+	if self.CurrentPhrase < #self.phrases then
+		self:SetPhrase(self.CurrentPhrase + 1)
+	else
+		warn("Dialog phrases ended")
+	end
 end
 
 function dialog.SetPhrase(self: Dialogue, i: number)
@@ -101,10 +106,15 @@ function dialog.SetPhrase(self: Dialogue, i: number)
 	self.PhraseChangeEvent:Fire()
 end
 
+--[[
+	Destroy dialog
+]]
 function dialog.Destroy(self: Dialogue)
 	self.PhraseChangeEvent:Destroy()
 	self.CharFace:Destroy()
 	self.Text:Destroy()
+
+	table.clear(self)
 end
 
 --[[
@@ -118,16 +128,13 @@ function dialog.new(MainFrame: Frame, Phrases: { phrase.Phrase }?, Default: stri
 
 	local PhraseChangeEvent = Instance.new("BindableEvent")
 
-	local self: Dialogue = {
+	local self: DialogueStruct = {
 		CurrentPhrase = 0,
 		phrases = Phrases or {},
 		Default = Default or "none",
 		CharFace = Instance.new("ImageLabel", MainFrame),
 		Text = Instance.new("TextLabel", MainFrame),
 		MainFrame = MainFrame,
-		Next = dialog.Next,
-		SetPhrase = dialog.SetPhrase,
-		Destroy = dialog.Destroy,
 		TextShowAnimation = TextShowAnimation or dialog.TextShowAnimations.Default,
 		PhraseChangeEvent = PhraseChangeEvent,
 		PhraseChange = PhraseChangeEvent.Event
@@ -140,6 +147,8 @@ function dialog.new(MainFrame: Frame, Phrases: { phrase.Phrase }?, Default: stri
 	self.CharFace.Size = UDim2.fromScale(0.3, 1)
 	self.CharFace.ScaleType = Enum.ScaleType.Fit
 	self.CharFace.BackgroundTransparency = 1
+
+	setmetatable(self, {__index = dialog})
 
 	return self
 end

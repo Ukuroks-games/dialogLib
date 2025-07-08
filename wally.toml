@@ -3,7 +3,7 @@ name = "egor00f/dialoglib"
 
 description = "Libarary for creating dialogs"
 
-version = "0.1.2"
+version = "0.1.4"
 
 registry = "https://github.com/UpliftGames/wally-index"
 
@@ -15,10 +15,6 @@ license = "MIT"
 repository = "https://github/Ukuroks-Games/dialoglib"
 
 authors = ["Egor00f <velikiydolbayeb@gmail.com>"]
-
-exclude = ["*"]
-
-include = ["src", "src/**", "wally.toml", "README.md", "init.lua"]
 
 private = false
 
