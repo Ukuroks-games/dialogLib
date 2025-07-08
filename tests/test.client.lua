@@ -4,9 +4,11 @@ local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local dialog = require(ReplicatedStorage.shared.dialog)
 local phrase = require(ReplicatedStorage.shared.phrase)
 
-local ScreenGui = Instance.new("ScreenGui", Players.LocalPlayer.PlayerGui)
-local MainFrame = Instance.new("Frame", ScreenGui)
+local ScreenGui = Instance.new("ScreenGui")
+ScreenGui = Players.LocalPlayer.PlayerGui
+local MainFrame = Instance.new("Frame")
 MainFrame.Size = UDim2.fromScale(0.5, 0.5)
+MainFrame.Parent = ScreenGui
 
 local ch1 = dialog.character.new("0")
 local ch2 = dialog.character.new("1")
@@ -22,13 +24,13 @@ local d = dialog.new(
 		MainFrame,
 		phrasesList,
 		nil,
-		function (self: dialog.Dialogue, phrase: phrase.Phrase)
+		function (self: dialog.Dialogue, newPhrase: phrase.Phrase)
 			print("setText")
-			self.Text.Text = phrase.Text
+			self.Text.Text = newPhrase.Text
 		end
 )
 
-for i = 1, #phrasesList, 1 do
+for _, _ in pairs(phrasesList) do
 	d:Next()
 	task.wait(5)
 end

@@ -1,4 +1,3 @@
-
 --[[
 	# Character class
 ]]
@@ -11,16 +10,15 @@ export type Character = {
 	--[[
 		Id of character face image
 	]]
-	FaceImageID: string
+	FaceImageID: string,
 }
 
 --[[
 	Chcater class constructor
 ]]
 function character.new(faceId: string): Character
-	
 	local self: Character = {
-		FaceImageID = faceId
+		FaceImageID = faceId,
 	}
 
 	return self
