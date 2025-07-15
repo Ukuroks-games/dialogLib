@@ -2,9 +2,39 @@
     "tasks": [
         {
             "type": "shell",
+            "label": "Install programs",
+            "detail": "Install programms using aftman",
+            "command": "aftman install && exit",
+            "group": {
+                "kind": "none"
+            },
+            "problemMatcher": [],
+        },
+        {
+            "type": "shell",
+            "label": "Load depends",
+            "command": "wally install && exit",
+            "group": {
+                "kind": "none"
+            },
+            "detail": "Install all project depends",
+            "problemMatcher": [],
+          
+        },
+        {
+            "type": "shell",
+            "label": "Publish",
+            "detail": "Putblish this library as wally package",
+            "command": "make publish && exit",
+            "group": {
+                "kind": "none"
+            },
+        },
+        {
+            "type": "shell",
             "label": "Build tests",
             "detail": "Build tests place",
-            "command": "rojo build tests.project.json --output tests.rbxl && exit",
+            "command": "make tests && exit",
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -12,22 +42,32 @@
         },
         {
             "type": "shell",
-            "label": "Generate sourcemap for tests",
-            "detail": "Generate sourcemap for tests project",
-            "command": "rojo sourcemap tests.project.json --output sourcemap.json && exit",
+            "label": "Build rbxm",
+            "detail": "Build rbxm library",
+            "command": "make dialoglib.rbxm && exit",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            }
+        },
+        {
+            "type": "shell",
+            "label": "Generate sourcemap",
+            "detail": "Generate sourcemap for this library",
+            "command": "make sourcemap && exit",
             "group": {
                 "kind": "none"
             }
         },
         {
             "type": "shell",
-            "label": "Publish",
-            "detail": "Publish this wally package",
-            "command": "wally publish && exit",
+            "label": "Lint",
+            "detail": "Run selene",
+            "command": "make lint && exit",
             "group": {
-                "kind": "none"
-            },
-        }
+                "kind": "none",
+            }
+        },
     ],
     "windows": {
         "options": {

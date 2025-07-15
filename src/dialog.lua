@@ -1,103 +1,30 @@
+local dialogType = require(script.Parent.dialogType)
 local phrase = require(script.Parent.phrase)
-local character = require(script.Parent.character)
+local textShowAnimation = require(script.Parent.textShowAnimation)
 
 --[[
 	# Dialog class
 ]]
 local dialog = {}
 
-dialog.phrase = phrase
-dialog.character = character
-
---[[
-	Dialog struct
-]]
-export type DialogueStruct = {
-	--[[
-	
-	]]
-	CurrentPhrase: number,
-
-	--[[
-		List of phrases in dialog
-	]]
-	phrases: { phrase.Phrase },
-
-	--[[
-		Frame, where dialog showing
-	]]
-	MainFrame: Frame,
-
-	--[[
-
-	]]
-	CharFace: ImageLabel,
-
-	--[[
-
-	]]
-	Text: TextLabel,
-
-	--[[
-	
-	]]
-	Default: string,
-
-	--[[
-
-	]]
-	TextShowAnimation: (self: Dialogue, phrase: phrase.Phrase) -> nil,
-
-	--[[
-	
-	]]
-	PhraseChange: RBXScriptConnection,
-	PhraseChangeEvent: BindableEvent,
-}
-
-export type Dialogue = DialogueStruct & typeof(dialog)
-
-dialog.TextShowAnimations = {}
-
---[[
-	Default text show animation
-]]
-function dialog.TextShowAnimations.Default(
-	self: Dialogue,
-	newPhrase: phrase.Phrase
-)
-	self.Text.Text = newPhrase.Text or self.Default
-end
-
---[[
-	Print text by single char
-]]
-function dialog.TextShowAnimations.ByChars(
-	self: Dialogue,
-	newPhrase: phrase.Phrase
-)
-	if not newPhrase.Text then
-		newPhrase.Text = self.Default
-	end
-
-	self.Text.Text = ""
-	for i = 1, #newPhrase.Text do
-		self.Text.Text = newPhrase.Text:sub(1, i)
-		wait(0.064)
-	end
-end
+export type Dialogue = dialogType.DialogueStruct & typeof(dialog)
 
 --[[
 	Next phrase
 ]]
-function dialog.Next(self: Dialogue)
+function dialog.Next(self: Dialogue): boolean
 	if self.CurrentPhrase < #self.phrases then
 		self:SetPhrase(self.CurrentPhrase + 1)
+		return true
 	else
 		warn("Dialog phrases ended")
+		return false
 	end
 end
 
+--[[
+	Set current phrase
+]]
 function dialog.SetPhrase(self: Dialogue, i: number)
 	self.CurrentPhrase = i
 	local newPhrase = self.phrases[i]
@@ -136,7 +63,7 @@ function dialog.new(
 ): Dialogue
 	local PhraseChangeEvent = Instance.new("BindableEvent")
 
-	local self: DialogueStruct = {
+	local self: dialogType.DialogueStruct = {
 		CurrentPhrase = 0,
 		phrases = Phrases or {},
 		Default = Default or "none",
@@ -144,7 +71,7 @@ function dialog.new(
 		Text = Instance.new("TextLabel"),
 		MainFrame = MainFrame,
 		TextShowAnimation = TextShowAnimation
-			or dialog.TextShowAnimations.Default,
+			or textShowAnimation.Default,
 		PhraseChangeEvent = PhraseChangeEvent,
 		PhraseChange = PhraseChangeEvent.Event,
 	}

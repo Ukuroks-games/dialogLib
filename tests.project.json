@@ -4,8 +4,11 @@
 		"$className": "DataModel",
 		"ReplicatedStorage": {
 			"$className": "ReplicatedStorage",
-			"shared": {
-				"$path": "src"
+			"Packages": {
+				"$className": "Folder",
+				"dialogLib": {
+					"$path": "src"
+				}
 			}
 		},
 		"Workspace": {

@@ -25,7 +25,6 @@ $(BUILD_DIR):
 configure: clean-build $(BUILD_DIR) wally.toml $(SOURCES)
 	$(CP) src/* $(BUILD_DIR)
 	$(CP) wally.toml build/
-	$(MV) $(BUILD_DIR)/dialog.lua $(BUILD_DIR)/init.lua
 
 package: configure $(SOURCES)
 	wally package --output $(PACKAGE_NAME) --project-path $(BUILD_DIR)

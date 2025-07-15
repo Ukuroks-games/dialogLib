@@ -11,7 +11,7 @@ export type Phrase = {
 }
 
 --[[
-	Phrase class consturctor
+	Phrase class constructor
 ]]
 function phrase.new(text: string, char: character.Character): Phrase
 	local self: Phrase = {

@@ -11,14 +11,22 @@ export type Character = {
 		Id of character face image
 	]]
 	FaceImageID: string,
+
+	--[[
+		Sound that sounding where this character soy something.
+
+		Working with text show animation
+	]]
+	VoiceSound: string?
 }
 
 --[[
-	Chcater class constructor
+	Character class constructor
 ]]
-function character.new(faceId: string): Character
+function character.new(faceId: string, voiceSound: string?): Character
 	local self: Character = {
 		FaceImageID = faceId,
+		VoiceSound = voiceSound
 	}
 
 	return self
