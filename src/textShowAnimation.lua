@@ -3,11 +3,11 @@ local phrase = require(script.Parent.phrase)
 
 local TextShowAnimations = {}
 
-local function PlayCharSound(phrase: phrase.Phrase): Sound
+local function PlayCharSound(newPhrase: phrase.Phrase): Sound
 	local sound
 
-	if phrase.Char.VoiceSound then
-		sound.SoundId = phrase.Char.VoiceSound
+	if newPhrase.Char.VoiceSound then
+		sound.SoundId = newPhrase.Char.VoiceSound
 		sound = Instance.new("Sound")
 		sound.Ended:Connect(function()
 		sound:Destroy()
