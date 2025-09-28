@@ -5,7 +5,7 @@ this is library for creating dialogs
 
 ## Example
 
-```
+```lua
 local Players = game:GetService("Players")
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 
