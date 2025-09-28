@@ -16,3 +16,7 @@ ServerPackages/
 
 build/
 *.zip
+
+/*.project.json
+
+node_modules/
